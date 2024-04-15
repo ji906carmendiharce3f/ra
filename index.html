@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocimiento de Voz y Cámara</title>
+</head>
+<body>
+    <h1>Reconocimiento de Voz y Cámara</h1>
+    <div id="cameraFeed">
+        <video id="videoElement" autoplay></video>
+    </div>
+    <div id="transcript"></div>
+
+    <script>
+        const video = document.getElementById('videoElement');
+        const transcript = document.getElementById('transcript');
+        const placeholderImage = 'vertical.jpg'; // Ruta de la imagen que quieres mostrar
+
+        // Acceso a la cámara
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error al acceder a la cámara: ', err);
+            }
+        }
+
+        // Inicio del reconocimiento de voz
+        async function startSpeechRecognition() {
+            const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+            recognition.lang = 'es-ES';
+
+            recognition.onresult = function(event) {
+                const speechToText = event.results[event.resultIndex][0].transcript;
+                transcript.textContent = speechToText;
+
+                // Reemplazar "semilla" por la imagen
+                if (speechToText.toLowerCase().includes('semilla')) {
+                    document.getElementById('cameraFeed').innerHTML = `<img src="${placeholderImage}" alt="Imagen de semilla reemplazada">`;
+                }
+            };
+
+            recognition.start();
+        }
+
+        // Inicialización de la cámara y el reconocimiento de voz
+        document.addEventListener('DOMContentLoaded', () => {
+            initCamera();
+            startSpeechRecognition();
+        });
+    </script>
+</body>
+</html>
