@@ -4,29 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reemplazo de Imagen</title>
+    <style>
+        #cameraFeed {
+            position: relative;
+            width: 640px; /* Ajusta el ancho según sea necesario */
+            height: 480px; /* Ajusta la altura según sea necesario */
+        }
+        #replacementImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Reemplazo de Imagen</h1>
     <div id="cameraFeed">
         <video id="videoElement" autoplay></video>
+        <img id="replacementImage" src="vertical.jpg" alt="Vertical">
     </div>
     <script>
         const video = document.getElementById('videoElement');
-        const cameraFeed = document.getElementById('cameraFeed');
+        const replacementImage = document.getElementById('replacementImage');
         const triggerWord = 'semilla';
-        const replacementImage = 'vertical.jpg';
 
-        // Función para reemplazar el video con la imagen
-        function replaceVideoWithImage() {
-            const img = document.createElement('img');
-            img.src = replacementImage;
-            img.alt = 'Imagen de reemplazo';
-            cameraFeed.innerHTML = '';
-            cameraFeed.appendChild(img);
+        // Inicialización de la cámara
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error al acceder a la cámara: ', err);
+            }
         }
 
-        // Monitorear el contenido del video
-        setInterval(() => {
+        // Función para verificar si la palabra está presente en la imagen de la cámara
+        function checkForWord() {
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = video.videoWidth;
@@ -35,18 +51,26 @@
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
             const pixels = imageData.data;
 
-            // Convertir los datos de píxeles en una cadena
+            // Convertir los píxeles a blanco y negro y luego a texto
             let text = '';
             for (let i = 0; i < pixels.length; i += 4) {
                 const grayscale = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
                 text += grayscale > 127 ? ' ' : '#'; // Usar '#' para píxeles oscuros, ' ' para píxeles claros
             }
 
-            // Buscar la palabra de desencadenamiento
+            // Verificar si la palabra está presente
             if (text.includes(triggerWord)) {
-                replaceVideoWithImage();
+                replacementImage.style.display = 'block'; // Mostrar la imagen de reemplazo
+            } else {
+                replacementImage.style.display = 'none'; // Ocultar la imagen de reemplazo
             }
-        }, 1000); // Verificar cada segundo
+        }
+
+        // Verificar continuamente la presencia de la palabra en la imagen de la cámara
+        setInterval(checkForWord, 1000);
+
+        // Inicialización de la cámara al cargar la página
+        document.addEventListener('DOMContentLoaded', initCamera);
     </script>
 </body>
 </html>
