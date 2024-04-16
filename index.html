@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realidad Aumentada con AR.js</title>
+    <title>Realidad Aumentada con AR.js y WebXR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
@@ -35,6 +35,13 @@
     </a-scene>
 
     <script>
+        // Pedir permiso para acceder a la cámara
+        navigator.xr.requestDevice().then(function(device) {
+            console.log('Permiso concedido para acceder a la cámara');
+        }).catch(function(error) {
+            console.error('Permiso denegado para acceder a la cámara:', error);
+        });
+
         // Función para detectar el marcador y mostrar la imagen
         function detectAndShowImage() {
             const markerEl = document.querySelector('a-nft');
@@ -47,15 +54,9 @@
             });
         }
 
-        // Pedir permiso para acceder a la cámara
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                console.log('Permiso concedido para acceder a la cámara');
-                detectAndShowImage(); // Llamar a la función para detectar el marcador y mostrar la imagen
-            })
-            .catch(function (error) {
-                console.error('Permiso denegado para acceder a la cámara:', error);
-            });
+        // Llamar a la función para detectar el marcador y mostrar la imagen
+        detectAndShowImage();
     </script>
 </body>
 </html>
+
