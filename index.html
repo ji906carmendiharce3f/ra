@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realidad Aumentada con AR.js</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
-<body style="margin : 0px; overflow: hidden;">
+<body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
         <a-nft
             type="nft"
-            url="vertical-image/nft-marker"
+            url="vertical-image/nft-marker" <!-- Ruta del marcador -->
             smooth="true"
             smoothCount="10"
             smoothTolerance=".01"
@@ -21,33 +21,24 @@
                 scale="2 2 2"
                 position="50 150 50"
                 rotation="-90 0 0"
-                gltf-model="vertical-image/model.gltf"
+                gltf-model="vertical-image/model.gltf" <!-- Ruta del modelo 3D -->
             ></a-entity>
         </a-nft>
         <a-entity
-            camera
-            cursor-visible="false"
+            id="replacementImage"
+            position="0 0 -3"
+            visible="false"
+            geometry="primitive: plane; width: 2; height: 2" <!-- Ajusta el tamaño según sea necesario -->
+            material="src: vertical.jpg" <!-- Ruta de la imagen de reemplazo -->
         ></a-entity>
+        <a-entity camera></a-entity>
     </a-scene>
+
     <script>
-        const markerEl = document.querySelector('a-nft');
-        const markerUrl = 'vertical-image/nft-marker';
-        const replacementImageSrc = 'vertical.jpg';
-
-        markerEl.addEventListener('markerFound', () => {
+        // Escuchador de eventos para detectar el marcador
+        document.querySelector('a-nft').addEventListener('markerFound', () => {
             console.log('Marcador encontrado');
-            // Cambiar la palabra "semilla" por una imagen
-            markerEl.querySelector('a-entity').setAttribute('gltf-model', '');
-            markerEl.querySelector('a-entity').setAttribute('geometry', 'primitive: plane; width: 1; height: 1;');
-            markerEl.querySelector('a-entity').setAttribute('material', `src: ${replacementImageSrc};`);
-        });
-
-        markerEl.addEventListener('markerLost', () => {
-            console.log('Marcador perdido');
-            // Restaurar la palabra "semilla"
-            markerEl.querySelector('a-entity').setAttribute('gltf-model', `vertical-image/model.gltf`);
-            markerEl.querySelector('a-entity').removeAttribute('geometry');
-            markerEl.querySelector('a-entity').removeAttribute('material');
+            document.getElementById('replacementImage').setAttribute('visible', 'true'); // Mostrar la imagen de reemplazo
         });
     </script>
 </body>
