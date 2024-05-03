@@ -3,70 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Word Replacement</title>
-  <style>
-    #ar-viewer {
-      width: 100vw;
-      height: 100vh;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: black;
-    }
-    #overlay {
-      position: absolute;
-      top: 50px;
-      left: 50px;
-      z-index: 1;
-    }
-    video {
-      max-width: 100%;
-      height: auto;
-    }
-  </style>
-</head>
-<body>
-  <div id="overlay">
-    <button onclick="startAR()">Iniciar AR</button>
-  </div>
-  <div id="ar-viewer" style="display:none;">
-    <a-scene embedded arjs="sourceType: webcam;">
-      <a-marker preset="hiro">
-        <a-entity position="0 0 0">
-          <a-image src="#replacementImage" width="3" height="3"></a-image>
-        </a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-  </div>
-
-  <img id="replacementImage" src="vertical.jpg" style="display:none;">
-
+  <title>Realidad Aumentada con AR.js</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+  <a-scene embedded arjs="sourceType: webcam;">
+    <a-marker preset="hiro">
+      <a-entity position="0 0 0">
+        <a-image src="/vertical.jpg" width="1" height="1"></a-image>
+       
+      </a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+
   <script>
-    function startAR() {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    // Evento para solicitar permisos al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('Tu navegador no es compatible con la API getUserMedia.');
+        return;
+      }
+      
+      navigator.mediaDevices.getUserMedia({ video: true })
         .then(function(stream) {
-          const arViewer = document.getElementById('ar-viewer');
-          const overlay = document.getElementById('overlay');
-          const button = overlay.querySelector('button');
-          const video = document.createElement('video');
-
-          video.srcObject = stream;
-          video.setAttribute('autoplay', true);
-          video.setAttribute('playsinline', true);
-          arViewer.insertBefore(video, arViewer.firstChild);
-          arViewer.style.display = 'block';
-          overlay.style.display = 'none';
-
-          button.remove(); // Remove the button once AR is started
+          console.log('Acceso a la cámara permitido.');
         })
         .catch(function(err) {
-          console.error('Error accessing camera:', err);
           alert('No se pudo acceder a la cámara. Por favor, permite el acceso para continuar.');
+          console.error('Error al acceder a la cámara:', err);
         });
-    }
+    });
   </script>
 </body>
 </html>
