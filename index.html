@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,11 +19,18 @@
       left: 50px;
       z-index: 1;
     }
+    video {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
-  <div id="ar-viewer">
-    <a-scene embedded arjs="detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+  <div id="overlay">
+    <button onclick="startAR()">Iniciar AR</button>
+  </div>
+  <div id="ar-viewer" style="display:none;">
+    <a-scene embedded arjs="sourceType: webcam;">
       <a-marker preset="hiro">
         <a-entity position="0 0 0">
           <a-image src="#replacementImage" width="3" height="3"></a-image>
@@ -33,49 +40,33 @@
     </a-scene>
   </div>
 
-  <img id="replacementImage" src="/vertical.jpg" style="display:none;">
+  <img id="replacementImage" src="vertical.jpg" style="display:none;">
 
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@douglasduteil/ocr-js"></script>
   <script>
-    const video = document.createElement('video');
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const ocr = OCR.create({ 
-      type: 'tesseract', 
-      workerPath: 'https://cdn.jsdelivr.net/npm/@douglasduteil/ocr-js/dist/ocr.worker.min.js',
-      lang: 'eng'
-    });
+    function startAR() {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function(stream) {
+          const arViewer = document.getElementById('ar-viewer');
+          const overlay = document.getElementById('overlay');
+          const button = overlay.querySelector('button');
+          const video = document.createElement('video');
 
-    video.setAttribute('playsinline', '');
-    video.setAttribute('autoplay', '');
+          video.srcObject = stream;
+          video.setAttribute('autoplay', true);
+          video.setAttribute('playsinline', true);
+          arViewer.insertBefore(video, arViewer.firstChild);
+          arViewer.style.display = 'block';
+          overlay.style.display = 'none';
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        video.srcObject = stream;
-        document.body.appendChild(video);
-      })
-      .catch(console.error);
-
-    video.addEventListener('play', () => {
-      const loop = () => {
-        if (!video.paused && !video.ended) {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          ocr.recognize(canvas)
-            .then(result => {
-              const text = result.data.text.toLowerCase();
-              if (text.includes('semilla')) {
-                document.getElementById('replacementImage').style.display = 'block';
-              } else {
-                document.getElementById('replacementImage').style.display = 'none';
-              }
-            });
-          setTimeout(loop, 1000 / 30); // 30 fps
-        }
-      };
-      loop();
-    });
+          button.remove(); // Remove the button once AR is started
+        })
+        .catch(function(err) {
+          console.error('Error accessing camera:', err);
+          alert('No se pudo acceder a la cámara. Por favor, permite el acceso para continuar.');
+        });
+    }
   </script>
 </body>
 </html>
