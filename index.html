@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Detection</title>
+  <title>AR Word Replacement</title>
   <style>
-    #video {
-      width: 100%;
-      height: auto;
-      max-width: 100vw;
+    #ar-viewer {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: black;
     }
     #overlay {
       position: absolute;
@@ -19,60 +22,60 @@
   </style>
 </head>
 <body>
-  <video id="video" autoplay playsinline></video>
-  <canvas id="canvas" style="display:none;"></canvas>
-  <img id="replacementImage" src="/vertical.jpg" style="display:none; position: fixed; top: 0; left: 0; z-index: 9999; width: 100%; height: 100%;">
-  
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <div id="ar-viewer">
+    <a-scene embedded arjs="detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      <a-marker preset="hiro">
+        <a-entity position="0 0 0">
+          <a-image src="#replacementImage" width="3" height="3"></a-image>
+        </a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </div>
+
+  <img id="replacementImage" src="/vertical.jpg" style="display:none;">
+
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@douglasduteil/ocr-js"></script>
   <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
+    const video = document.createElement('video');
+    const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const replacementImage = document.getElementById('replacementImage');
-    let isReplacing = false;
-    let model;
+    const ocr = OCR.create({ 
+      type: 'tesseract', 
+      workerPath: 'https://cdn.jsdelivr.net/npm/@douglasduteil/ocr-js/dist/ocr.worker.min.js',
+      lang: 'eng'
+    });
 
-    // Cargar el modelo de detección de objetos cuando la página esté lista
-    async function loadModel() {
-      model = await cocoSsd.load();
-    }
+    video.setAttribute('playsinline', '');
+    video.setAttribute('autoplay', '');
 
-    // Función para cargar el video de la cámara
-    async function setupCamera() {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      video.srcObject = stream;
-    }
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+        document.body.appendChild(video);
+      })
+      .catch(console.error);
 
-    // Función para procesar el video y detectar la palabra "semilla"
-    async function detectWord() {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Detección de objetos usando TensorFlow.js
-      const predictions = await model.detect(canvas);
-      const semillaDetected = predictions.some(prediction => prediction.class === 'semilla');
-
-      // Si se detecta la palabra "semilla", reemplazarla
-      if (semillaDetected && !isReplacing) {
-        isReplacing = true;
-        document.body.appendChild(replacementImage); // Mostrar la imagen de reemplazo
-        setTimeout(() => {
-          isReplacing = false;
-          document.body.removeChild(replacementImage); // Ocultar la imagen de reemplazo después de un tiempo
-        }, 5000); // Ocultar después de 5 segundos (ajusta según tus necesidades)
-      }
-
-      requestAnimationFrame(detectWord);
-    }
-
-    // Iniciar la cámara y cargar el modelo cuando la página esté lista
-    Promise.all([tf.ready(), loadModel()])
-      .then(() => {
-        setupCamera();
-        detectWord();
-      });
+    video.addEventListener('play', () => {
+      const loop = () => {
+        if (!video.paused && !video.ended) {
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          ocr.recognize(canvas)
+            .then(result => {
+              const text = result.data.text.toLowerCase();
+              if (text.includes('semilla')) {
+                document.getElementById('replacementImage').style.display = 'block';
+              } else {
+                document.getElementById('replacementImage').style.display = 'none';
+              }
+            });
+          setTimeout(loop, 1000 / 30); // 30 fps
+        }
+      };
+      loop();
+    });
   </script>
 </body>
 </html>
