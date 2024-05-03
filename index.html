@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Word Detection</title>
+  <title>Word Detection</title>
   <style>
     #video {
       width: 100%;
@@ -23,12 +23,20 @@
   <canvas id="canvas" style="display:none;"></canvas>
   <img id="replacementImage" src="vertical.jpg" style="display:none; position: fixed; top: 0; left: 0; z-index: 9999; width: 100%; height: 100%;">
   
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
   <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
     const replacementImage = document.getElementById('replacementImage');
     let isReplacing = false;
+    let model;
+
+    // Cargar el modelo de detección de objetos cuando la página esté lista
+    async function loadModel() {
+      model = await cocoSsd.load();
+    }
 
     // Función para cargar el video de la cámara
     async function setupCamera() {
@@ -41,14 +49,13 @@
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       
-      // Aquí deberías implementar la lógica para detectar la palabra "semilla" en imageData
-      // Puedes utilizar técnicas de procesamiento de imágenes o librerías de reconocimiento de texto
+      // Detección de objetos usando TensorFlow.js
+      const predictions = await model.detect(canvas);
+      const semillaDetected = predictions.some(prediction => prediction.class === 'semilla');
 
-      // Ejemplo básico: si la palabra "semilla" está en la imagen, reemplazarla
-      const wordDetected = true; // Supongamos que se detecta la palabra "semilla"
-      if (wordDetected && !isReplacing) {
+      // Si se detecta la palabra "semilla", reemplazarla
+      if (semillaDetected && !isReplacing) {
         isReplacing = true;
         document.body.appendChild(replacementImage); // Mostrar la imagen de reemplazo
         setTimeout(() => {
@@ -60,11 +67,12 @@
       requestAnimationFrame(detectWord);
     }
 
-    // Iniciar la cámara y comenzar la detección de palabras cuando el video esté disponible
-    video.addEventListener('loadedmetadata', () => {
-      setupCamera();
-      detectWord();
-    });
+    // Iniciar la cámara y cargar el modelo cuando la página esté lista
+    Promise.all([tf.ready(), loadModel()])
+      .then(() => {
+        setupCamera();
+        detectWord();
+      });
   </script>
 </body>
 </html>
