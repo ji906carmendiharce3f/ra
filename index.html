@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>AR 26</title>
+    <title>AR 27</title>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 <body style="margin: 0px; overflow: hidden;">
-    <!-- AR.js permissions request -->
-    <div id="permissionOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-        <button onclick="requestPermissions()">Permitir Cámara</button>
-    </div>
+   
     
     <!-- AR.js loading screen -->
     <div class="arjs-loader">
@@ -29,7 +26,7 @@
         <!-- Image marker -->
         <a-nft
             type="nft"
-            url="/semilla.jpg"
+            url="semilla.jpg"
             smooth="true"
             smoothCount="10"
             smoothTolerance=".01"
@@ -37,7 +34,7 @@
         >
             <!-- Model to display when marker is detected -->
             <a-entity
-                gltf-model="vertical.glb"
+                gltf-model="/vertical.gltf"
                 scale="0.1 0.1 0.1"
                 position="0 0 0"
             ></a-entity>
