@@ -13,12 +13,16 @@
         <button onclick="requestPermissions()">Allow Camera Access</button>
     </div>
     
-   
+    <!-- AR.js loading screen -->
+    <div class="arjs-loader">
+        <div>Loading, please wait...</div>
+    </div>
+
     <!-- AR.js scene -->
     <a-scene
         vr-mode-ui="enabled: false;"
         renderer="logarithmicDepthBuffer: true; precision: medium;"
-        embedded
+        embedded="true"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
     >
         <!-- Image marker -->
@@ -32,7 +36,7 @@
         >
             <!-- Model to display when marker is detected -->
             <a-entity
-                gltf-model="/vertical.glb"
+                gltf-model="vertical.glb"
                 scale="0.1 0.1 0.1"
                 position="0 0 0"
             ></a-entity>
