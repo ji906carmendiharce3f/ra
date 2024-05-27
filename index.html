@@ -6,16 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>AR con Model Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
 
-    <!-- Contenedor para Model Viewer -->
-    <model-viewer id="modelViewer" src="/ver.glb" alt="Modelo 3D" camera-controls autoplay
-        style="width: 100%; height: 100vh;"></model-viewer>
+    <!-- AR.js loading screen -->
+    <div class="arjs-loader">
+        <div>Cargando AR...</div>
+    </div>
 
-    <!-- Elemento para mostrar la imagen mientras se detecta "semilla" -->
-    <div id="imagenSemilla" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('/semilla.jpg') no-repeat center center / cover; z-index: 999;"></div>
+    <!-- AR.js scene -->
+    <a-scene
+        vr-mode-ui="enabled: false;"
+        renderer="logarithmicDepthBuffer: true; precision: medium;"
+        embedded="true"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        style="width: 100%; height: 100%;"
+    >
+        <!-- Contenedor para Model Viewer -->
+        <model-viewer id="modelViewer" src="/ver.glb" alt="Modelo 3D" camera-controls autoplay
+            style="display: none;"></model-viewer>
+
+        <!-- Elemento para mostrar la imagen mientras se detecta "semilla" -->
+        <div id="imagenSemilla" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('/semilla.jpg') no-repeat center center / cover; z-index: 999;"></div>
+
+        <!-- Camera entity -->
+        <a-entity camera></a-entity>
+    </a-scene>
 
     <script>
         // Función para detectar la palabra "semilla"
