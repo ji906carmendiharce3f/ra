@@ -32,10 +32,12 @@
             smoothThreshold="5"
         >
             <!-- Model to display when marker is detected -->
+            <a-assets>
+                <a-asset-item id="semilla" src="/vertical.glb"></a-asset-item>
+              </a-assets>
             <a-entity
-                gltf-model="vertical.glb"
-                scale="0.1 0.1 0.1"
-                position="0 0 0"
+                gltf-model="#semilla"
+                
             ></a-entity>
         </a-nft>
         <!-- Camera entity -->
