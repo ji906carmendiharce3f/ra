@@ -22,7 +22,7 @@
   }
 </style>
 
-<body style="margin : 0px; overflow: hidden;">
+<body style="margin: 0px; overflow: hidden;">
   <!-- minimal loader shown until image descriptors are loaded -->
   <div class="arjs-loader">
     <div>Loading, please wait...</div>
@@ -31,24 +31,25 @@
     vr-mode-ui="enabled: false;"
     renderer="logarithmicDepthBuffer: true; precision: medium;"
     embedded
-    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
   >
-    <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
+    <!-- Image marker -->
     <a-nft
       type="nft"
-      url="your-server/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/trex-image/trex"
+      url="semilla.jpg"
       smooth="true"
       smoothCount="10"
       smoothTolerance=".01"
       smoothThreshold="5"
     >
+      <!-- Model to display when marker is detected -->
       <a-entity
-        gltf-model="your-server/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-        scale="5 5 5"
-        position="150 300 -100"
-      >
-      </a-entity>
+        gltf-model="vertical.glb"
+        scale="0.1 0.1 0.1"
+        position="0 0 0"
+      ></a-entity>
     </a-nft>
+    <!-- Camera entity -->
     <a-entity camera></a-entity>
   </a-scene>
 </body>
