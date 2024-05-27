@@ -32,11 +32,17 @@
             smoothTolerance=".01"
             smoothThreshold="5"
         >
-            <!-- Model to display when marker is detected -->
+            <!-- Model to display when marker is detected 
+
+            <a-assets>
+                <a-asset-item id="tree" src="/path/to/tree.gltf"></a-asset-item>
+              </a-assets>
+            
+              <a-entity gltf-model="#tree"></a-entity>
+-->
             <a-entity
                 gltf-model="/vertical.gltf"
-                scale="0.1 0.1 0.1"
-                position="0 0 0"
+              
             ></a-entity>
         </a-nft>
         <!-- Camera entity -->
