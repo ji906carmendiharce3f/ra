@@ -1,54 +1,39 @@
-<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+<!DOCTYPE html>
+<html lang="es">
 
-<style>
-  .arjs-loader {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AR con Model Viewer</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+</head>
 
-  .arjs-loader div {
-    text-align: center;
-    font-size: 1.25em;
-    color: white;
-  }
-</style>
+<body style="margin: 0px; overflow: hidden;">
 
-<body style="margin : 0px; overflow: hidden;">
-  <!-- minimal loader shown until image descriptors are loaded -->
-  <div class="arjs-loader">
-    <div>Loading, please wait...</div>
-  </div>
-  <a-scene
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true; precision: medium;"
-    embedded
-    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
-  >
-    <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
-    <a-nft
-      type="nft"
-      url="your-server/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/trex-image/trex"
-      smooth="true"
-      smoothCount="10"
-      smoothTolerance=".01"
-      smoothThreshold="5"
-    >
-      <a-entity
-        gltf-model="your-server/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-        scale="5 5 5"
-        position="150 300 -100"
-      >
-      </a-entity>
-    </a-nft>
-    <a-entity camera></a-entity>
-  </a-scene>
+    <!-- Contenedor para Model Viewer -->
+    <model-viewer id="modelViewer" src="/ver.glb" alt="Modelo 3D" camera-controls autoplay
+        style="width: 100%; height: 100vh;"></model-viewer>
+
+    <!-- Elemento para mostrar la imagen mientras se detecta "semilla" -->
+    <div id="imagenSemilla" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('/semilla.jpg') no-repeat center center / cover; z-index: 999;"></div>
+
+    <script>
+        // Función para detectar la palabra "semilla"
+        function detectarSemilla(event) {
+            const palabra = event.detail.words.find(word => word.toLowerCase() === 'semilla');
+            if (palabra) {
+                // Mostrar la imagen mientras se detecta la palabra "semilla"
+                document.getElementById('imagenSemilla').style.display = 'block';
+            } else {
+                // Ocultar la imagen cuando no se detecta la palabra "semilla"
+                document.getElementById('imagenSemilla').style.display = 'none';
+            }
+        }
+
+        // Escuchar eventos de reconocimiento de palabras
+        document.querySelector('model-viewer').addEventListener('ar-status', detectarSemilla);
+    </script>
+
 </body>
+
+</html>
