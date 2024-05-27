@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>AR40</title>
+    <title>AR sin marcador</title>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
@@ -22,23 +22,12 @@
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
         style="width: 100%; height: 100%;"
     >
-        <!-- Image marker with word detection -->
-        <a-marker-word
-            type="nft"
-            src="/semilla.jpg"
-            smooth="true"
-            smoothCount="10"
-            smoothTolerance=".01"
-            smoothThreshold="5"
-            word="semilla"
-        >
-            <!-- Model to display when marker word is detected -->
-            <a-entity
-                gltf-model="/ver.glb"
-                scale="0.1 0.1 0.1"
-                position="0 0 0"
-            ></a-entity>
-        </a-marker-word>
+        <!-- Modelo sin marcador -->
+        <a-entity
+            gltf-model="/ver.glb"
+            scale="0.1 0.1 0.1"
+            position="0 0 -5" <!-- Posición en el espacio -->
+        ></a-entity>
 
         <!-- Camera entity -->
         <a-entity camera></a-entity>
