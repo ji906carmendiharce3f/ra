@@ -42,16 +42,15 @@
 
     <style>
         .video-container {
-          max-width: 100%; /* Ajustar según necesidad */
-          height: auto; /* Para mantener la proporción del video */
-          overflow: hidden; /* Para manejar el recorte si es necesario */
+          max-width: 100%; 
+          height: auto; 
+          overflow: hidden; 
         }
         .video-container video {
-          width: 100%; /* Video ocupa el ancho completo del contenedor */
-          height: auto; /* Se ajusta automáticamente según el ancho */
+          width: 100%; 
+          height: auto;
         }
       </style>
-      
 
     <br>
 
@@ -106,7 +105,7 @@
                 </div>
                 <div class='col'>
                     <div class='card'>
-                        <a class="stretched-link" href=""></a>
+                        <a class="stretched-link" href="https://kahoot.it/challenge/03056722?challenge-id=ff71f699-263e-4f38-8a6c-b311dd06b0fb_1719362216821"></a>
                         <img src='./images/juego.jpg' style="overflow: hidden; width: 100%">
                     </div>
                 </div>
@@ -161,6 +160,12 @@
                     <source src="./videos/20.mp4" type="video/mp4" />
                 </video>
             </div>
+            <div class='col'>
+                <a class="stretched-link"></a>
+                <video class="w-100" autoplay loop muted>
+                    <source src="./videos/9dejulio.mp4" type="video/mp4" />
+                </video>
+            </div>
 
         </div>
     </main>
@@ -202,21 +207,20 @@
 
     <script>
         window.onload = function() {
-          // Obtener el tamaño inicial de la ventana
+       
           var initialWidth = window.innerWidth;
           var initialHeight = window.innerHeight;
       
-          // Ajustar el tamaño del contenedor de video y del video
           var videoContainer = document.querySelector('.video-container');
           var video = videoContainer.querySelector('video');
       
-          // Ajustar tamaño inicial basado en las dimensiones de la pantalla
+        
           videoContainer.style.width = initialWidth + 'px';
           videoContainer.style.height = initialHeight + 'px';
           video.style.width = initialWidth + 'px';
           video.style.height = initialHeight + 'px';
       
-          // Ajustar tamaño en redimensionamiento de ventana
+          
           window.onresize = function() {
             var currentWidth = window.innerWidth;
             var currentHeight = window.innerHeight;
