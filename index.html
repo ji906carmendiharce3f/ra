@@ -31,26 +31,24 @@
     </nav>
 
     <header>
-
-        <div class="video-container">
-            <video  autoplay loop muted>
-                <source src="./videos/video.mp4" type="video/mp4" />
-            </video>
-             
+     
+            <div class="col">
+                <div class="row">
+                    <video autoplay loop muted>
+                        <source src="./videos/distrital.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <br>
+                <div class="row">
+                    <video autoplay loop muted>
+                        <source src="./videos/video1.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
         </div>
     </header>
 
-    <style>
-        .video-container {
-          max-width: 100%; 
-          height: auto; 
-          overflow: hidden; 
-        }
-        .video-container video {
-          width: 100%; 
-          height: auto;
-        }
-      </style>
+   
 
     <br>
 
@@ -59,7 +57,8 @@
 
             <div class='col'>
                 <div class='card'>
-                    <a class="stretched-link" href="https://ji906carmendiharce3f.github.io/paginaprincipal/3sec.html"></a>
+                    <a class="stretched-link"
+                        href="https://ji906carmendiharce3f.github.io/paginaprincipal/3sec.html"></a>
                     <img src='./images/p.jpg' style="overflow: hidden; width: 100%">
                 </div>
             </div>
@@ -105,7 +104,8 @@
                 </div>
                 <div class='col'>
                     <div class='card'>
-                        <a class="stretched-link" href="https://kahoot.it/challenge/03056722?challenge-id=ff71f699-263e-4f38-8a6c-b311dd06b0fb_1719362216821"></a>
+                        <a class="stretched-link"
+                            href="https://kahoot.it/challenge/03056722?challenge-id=ff71f699-263e-4f38-8a6c-b311dd06b0fb_1719362216821"></a>
                         <img src='./images/juego.jpg' style="overflow: hidden; width: 100%">
                     </div>
                 </div>
@@ -206,32 +206,32 @@
     <br>
 
     <script>
-        window.onload = function() {
-       
-          var initialWidth = window.innerWidth;
-          var initialHeight = window.innerHeight;
-      
-          var videoContainer = document.querySelector('.video-container');
-          var video = videoContainer.querySelector('video');
-      
-        
-          videoContainer.style.width = initialWidth + 'px';
-          videoContainer.style.height = initialHeight + 'px';
-          video.style.width = initialWidth + 'px';
-          video.style.height = initialHeight + 'px';
-      
-          
-          window.onresize = function() {
-            var currentWidth = window.innerWidth;
-            var currentHeight = window.innerHeight;
-            
-            videoContainer.style.width = currentWidth + 'px';
-            videoContainer.style.height = currentHeight + 'px';
-            video.style.width = currentWidth + 'px';
-            video.style.height = currentHeight + 'px';
-          };
+        window.onload = function () {
+
+            var initialWidth = window.innerWidth;
+            var initialHeight = window.innerHeight;
+
+            var videoContainer = document.querySelector('.video-container');
+            var video = videoContainer.querySelector('video');
+
+
+            videoContainer.style.width = initialWidth + 'px';
+            videoContainer.style.height = initialHeight + 'px';
+            video.style.width = initialWidth + 'px';
+            video.style.height = initialHeight + 'px';
+
+
+            window.onresize = function () {
+                var currentWidth = window.innerWidth;
+                var currentHeight = window.innerHeight;
+
+                videoContainer.style.width = currentWidth + 'px';
+                videoContainer.style.height = currentHeight + 'px';
+                video.style.width = currentWidth + 'px';
+                video.style.height = currentHeight + 'px';
+            };
         };
-      </script>
+    </script>
     <footer style="background-color: #ABC339; text-align: center; font-family: 'Georgia'; font-size:medium" ;>
         <p>Realizado por Rocio Sierra. Todos los derechos reservados. Copyright 2024©</p>
     </footer>
