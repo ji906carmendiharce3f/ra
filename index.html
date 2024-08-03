@@ -41,7 +41,7 @@
                 <br>
                 <div class="row">
                     <video autoplay loop muted>
-                        <source src="./videos/video1.mp4" type="video/mp4" />
+                        <source src="./videos/video34.mp4" type="video/mp4" />
                     </video>
                 </div>
             </div>
@@ -205,33 +205,7 @@
     </section>
     <br>
 
-    <script>
-        window.onload = function () {
-
-            var initialWidth = window.innerWidth;
-            var initialHeight = window.innerHeight;
-
-            var videoContainer = document.querySelector('.video-container');
-            var video = videoContainer.querySelector('video');
-
-
-            videoContainer.style.width = initialWidth + 'px';
-            videoContainer.style.height = initialHeight + 'px';
-            video.style.width = initialWidth + 'px';
-            video.style.height = initialHeight + 'px';
-
-
-            window.onresize = function () {
-                var currentWidth = window.innerWidth;
-                var currentHeight = window.innerHeight;
-
-                videoContainer.style.width = currentWidth + 'px';
-                videoContainer.style.height = currentHeight + 'px';
-                video.style.width = currentWidth + 'px';
-                video.style.height = currentHeight + 'px';
-            };
-        };
-    </script>
+    
     <footer style="background-color: #ABC339; text-align: center; font-family: 'Georgia'; font-size:medium" ;>
         <p>Realizado por Rocio Sierra. Todos los derechos reservados. Copyright 2024©</p>
     </footer>

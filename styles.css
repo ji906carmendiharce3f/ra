@@ -7,13 +7,13 @@
   text-align: center;
   /**height: 200px;*/
   color: black;
-  font-family:'Roboto';
+  font-family: 'Roboto';
 }
 
 .titulo-articulo-index {
   text-align: center;
   font-family: 'League Spartan';
-  font-size:large;
+  font-size: large;
   color: black;
 }
 
@@ -22,13 +22,14 @@
   font-family: 'Roboto';
   font-size: medium;
   color: #1D1D1B;
-  
+
 }
 
 
-.titulo-articulo-index{
+.titulo-articulo-index {
   margin: 2%;
 }
+
 .roboto-thin {
   font-family: "Roboto", sans-serif;
   font-weight: 100;
@@ -112,32 +113,48 @@
 
 /* Estilo para el encabezado */
 header {
-  display: flex; /* Utiliza Flexbox para el layout */
-  flex-direction: column; /* Organiza los elementos en una columna */
-  height: 100vh; /* Ocupa el 100% de la altura de la ventana del navegador */
-  margin: 0; /* Elimina márgenes predeterminados */
-  padding: 0; /* Elimina el padding predeterminado */
+  display: flex;
+  /* Utiliza Flexbox para el layout */
+  flex-direction: column;
+  /* Organiza los elementos en una columna */
+  height: 100vh;
+  /* Ocupa el 100% de la altura de la ventana del navegador */
+  margin: 0;
+  /* Elimina márgenes predeterminados */
+  padding: 0;
+  /* Elimina el padding predeterminado */
 }
 
 /* Estilo para la columna que contiene los videos */
 .col {
-  display: flex; /* Utiliza Flexbox para el layout */
-  flex-direction: column; /* Organiza los videos en una columna */
-  height: 100%; /* Ocupa toda la altura del header */
+  display: flex;
+  /* Utiliza Flexbox para el layout */
+  flex-direction: column;
+  /* Organiza los videos en una columna */
+  height: 100%;
+  /* Ocupa toda la altura del header */
 }
 
 /* Estilo para cada fila que contiene un video */
 .row {
-  flex: 1; /* Permite que las filas crezcan y se ajusten igualmente */
-  display: flex; /* Utiliza Flexbox para centrar el contenido */
-  justify-content: center; /* Centra el video horizontalmente */
-  align-items: center; /* Centra el video verticalmente */
-  overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+  flex: 1;
+  /* Permite que las filas crezcan y se ajusten igualmente */
+  display: flex;
+  /* Utiliza Flexbox para centrar el contenido */
+  justify-content: center;
+  /* Centra el video horizontalmente */
+  align-items: center;
+  /* Centra el video verticalmente */
+  overflow: hidden;
+  /* Oculta el contenido que se sale del contenedor */
 }
 
 /* Estilo para los videos */
 video {
-  max-width: 100%; /* Limita el ancho máximo del video al ancho del contenedor */
-  max-height: 100%; /* Limita la altura máxima del video a la altura del contenedor */
-  object-fit: contain; /* Ajusta el video para que se ajuste dentro del contenedor sin distorsión */
+  max-width: 100%;
+  /* Limita el ancho máximo del video al ancho del contenedor */
+  max-height: 100%;
+  /* Limita la altura máxima del video a la altura del contenedor */
+  object-fit: contain;
+  /* Ajusta el video para que se ajuste dentro del contenedor sin distorsión */
 }
