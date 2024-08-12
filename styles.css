@@ -111,19 +111,7 @@
 }
 
 
-/* Estilo para el encabezado */
-header {
-  display: flex;
-  /* Utiliza Flexbox para el layout */
-  flex-direction: column;
-  /* Organiza los elementos en una columna */
-  height: 100vh;
-  /* Ocupa el 100% de la altura de la ventana del navegador */
-  margin: 0;
-  /* Elimina márgenes predeterminados */
-  padding: 0;
-  /* Elimina el padding predeterminado */
-}
+
 
 /* Estilo para la columna que contiene los videos */
 .col {
