@@ -24,6 +24,9 @@
     color: #1D1D1B;
     
   }
+  body {
+    overflow-x: hidden;
+}
   
   
   .titulo-articulo-index{
